@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct InternaliOSApisDemoApp: App {
+	
+	@StateObject private var reminderManager = ReminderManager()
+	
     var body: some Scene {
         WindowGroup {
             ContentView()
+				.environmentObject(reminderManager)
         }
     }
 }
