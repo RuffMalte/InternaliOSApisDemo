@@ -9,7 +9,7 @@
 import SwiftUI
 import EventKit
 
-class CalendarViewModel: ObservableObject {
+class CalendarManager: ObservableObject {
     @Published var events: [EKEvent] = []
     private let eventStore = EKEventStore()
     

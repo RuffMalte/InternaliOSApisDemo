@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct CalendarView: View {
-    @StateObject private var viewModel = CalendarViewModel()
+    @StateObject private var viewModel = CalendarManager()
     
     var body: some View {
         List(viewModel.events, id: \.eventIdentifier) { event in

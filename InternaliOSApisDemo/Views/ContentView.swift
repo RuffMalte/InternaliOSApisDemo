@@ -27,6 +27,16 @@ struct ContentView: View {
 					}
 				}
 				
+				Section {
+					NavigationLink {
+						MapsMainView()
+					} label: {
+						DemoItemListView(icon: "map.fill", iconBackground: .yellow, title: "MapKit")
+
+					}
+
+				}
+				
 			}
 		}
     }
