@@ -19,7 +19,7 @@ struct RemindersMainView: View {
 			Section {
 				ForEach(reminderManager.remindersInList) { list in
 					NavigationLink {
-						ReminderDetailView(list: list)
+						ReminderListDetailView(list: list)
 					} label: {
 						ReminderListMediumCellView(list: list)
 					}
@@ -42,7 +42,7 @@ struct RemindersMainView: View {
 									print("Reminder deleted")
 								}
 							}
-						}
+						} 
 				}
 			} header: {
 				Text("Reminders")

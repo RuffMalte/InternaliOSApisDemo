@@ -8,9 +8,8 @@
 import SwiftUI
 import EventKit
 
-struct ReminderDetailView: View {
+struct ReminderListDetailView: View {
 	@Bindable var list: Reminders
-	@State var currentList: [EKReminder] = []
 	@EnvironmentObject var reminderManager: ReminderManager
 	
 	@State private var refreshID = UUID()

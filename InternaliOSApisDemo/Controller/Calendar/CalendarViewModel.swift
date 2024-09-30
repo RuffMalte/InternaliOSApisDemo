@@ -33,7 +33,7 @@ class CalendarViewModel: ObservableObject {
         let startDate = Date()
         let endDate = Calendar.current.date(byAdding: .month, value: 1, to: startDate)!
         
-        let calendars = eventStore.calendars(for: .event)
+		let calendars = eventStore.calendars(for: .event)
         let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
         
         let fetchedEvents = eventStore.events(matching: predicate)
