@@ -34,6 +34,14 @@ struct ContentView: View {
 						DemoItemListView(icon: "map.fill", iconBackground: .yellow, title: "MapKit")
 
 					}
+				}
+				
+				Section {
+					NavigationLink {
+						TranslationMainView()
+					} label: {
+						DemoItemListView(icon: "globe", iconBackground: .blue, title: "Translation")
+					}
 
 				}
 				
