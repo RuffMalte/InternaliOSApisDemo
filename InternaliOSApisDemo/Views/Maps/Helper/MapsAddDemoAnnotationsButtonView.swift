@@ -8,6 +8,12 @@
 import SwiftUI
 import MapKit
 
+struct CustomAnnotation: Identifiable {
+	let id: UUID
+	let title: String
+	let coordinate: CLLocationCoordinate2D
+}
+
 struct MapsAddDemoAnnotationsButtonView: View {
 	
 	@Binding var annotations: [CustomAnnotation]
@@ -54,7 +60,6 @@ struct MapsAddDemoAnnotationsButtonView: View {
 		}
 	}
 	
-	// Function to delete an annotation
 	private func deleteAnnotation() {
 		annotations.removeAll()
 	}
