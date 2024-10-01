@@ -14,7 +14,9 @@ struct MapsSearchForPOIView: View {
 	@Binding var searchText: String
 	@Binding var searchResults: [MKMapItem]
 	@Binding var isShowingSearchResults: Bool
-	
+	@Binding var selectedRoute: MKRoute?
+	@Binding var estimatedTravelTime: TimeInterval?
+
 	@EnvironmentObject private var locationManager: LocationPermissionManager
 	
 	var body: some View {
@@ -22,16 +24,40 @@ struct MapsSearchForPOIView: View {
 			DisclosureGroup(isExpanded: $isShowingSearchResults) {
 				if !searchResults.isEmpty {
 					List(searchResults, id: \.self) { item in
-						VStack(alignment: .leading) {
-							HStack {
-								Text(item.name ?? "Unknown")
-								Spacer()
-								Text(item.phoneNumber ?? "")
-									.foregroundStyle(.tint)
-									.font(.system(.subheadline, design: .monospaced, weight: .bold))
+						HStack {
+							Menu {
+								Button {
+									getDirections(to: item, transportType: .automobile)
+								} label: {
+									Label("Drive", systemImage: "car.fill")
+								}
+								
+								Button {
+									getDirections(to: item, transportType: .walking)
+								} label: {
+									Label("Walk", systemImage: "figure.walk")
+								}
+								
+								Button {
+									getDirections(to: item, transportType: .transit)
+								} label: {
+									Label("Public transport", systemImage: "bus.fill")
+								}
+							} label: {
+								Image(systemName: "ellipsis.circle.fill")
 							}
-							Text(item.placemark.title ?? "")
-								.font(.caption)
+
+							VStack(alignment: .leading) {
+								HStack {
+									Text(item.name ?? "Unknown")
+									Spacer()
+									Text(item.phoneNumber ?? "")
+										.foregroundStyle(.tint)
+										.font(.system(.subheadline, design: .monospaced, weight: .bold))
+								}
+								Text(item.placemark.title ?? "")
+									.font(.caption)
+							}
 						}
 					}
 					
@@ -48,6 +74,28 @@ struct MapsSearchForPOIView: View {
 			}
 		} header: {
 			Text("Search for POIs")
+		}
+	}
+	
+	func getDirections(to destination: MKMapItem, transportType: MKDirectionsTransportType) {
+		guard let userLocation = locationManager.lastLocation else { return }
+		
+		let request = MKDirections.Request()
+		request.source = MKMapItem(placemark: MKPlacemark(coordinate: userLocation.coordinate))
+		request.destination = destination
+		request.transportType = transportType
+		
+		let directions = MKDirections(request: request)
+		directions.calculate { response, error in
+			guard let route = response?.routes.first else {
+				print("Error calculating route: \(error?.localizedDescription ?? "Unknown error")")
+				return
+			}
+			self.selectedRoute = route
+			self.estimatedTravelTime = route.expectedTravelTime
+			
+			let rect = route.polyline.boundingMapRect
+			self.cameraPosition = .rect(rect)
 		}
 	}
 	
