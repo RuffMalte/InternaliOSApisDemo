@@ -46,6 +46,7 @@ struct ContentView: View {
 				}
 				
 			}
+			.navigationTitle("Internal iOS APIs Demo")
 		}
     }
 }
