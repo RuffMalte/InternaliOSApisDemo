@@ -45,6 +45,36 @@ struct ContentView: View {
 
 				}
 				
+				Section {
+					NavigationLink {
+						HealthKitDemoView()
+					} label: {
+						DemoItemListView(icon: "heart.fill", iconBackground: .red, title: "HealthKit")
+
+					}
+					NavigationLink {
+						
+					} label: {
+						DemoItemListView(icon: "figure.run", iconBackground: .green, title: "Workouts")
+						
+					}
+				}
+				
+				Section {
+					NavigationLink {
+						
+					} label: {
+						DemoItemListView(icon: "photo.fill", iconBackground: .black, title: "Photos")
+						
+					}
+					NavigationLink {
+						
+					} label: {
+						DemoItemListView(icon: "camera.fill", iconBackground: .gray, title: "Camera")
+						
+					}
+				}
+				
 			}
 			.navigationTitle("Internal iOS APIs Demo")
 		}
