@@ -61,7 +61,7 @@ struct ReminderMediumCellView: View {
 								.minute()
 						))
 						.font(.footnote)
-						.foregroundColor(isToday && isPast ? .red : .gray)
+						.foregroundColor(isToday || isPast ? .red : .gray)
 					}
 				}
 				
