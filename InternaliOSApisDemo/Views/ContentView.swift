@@ -53,7 +53,7 @@ struct ContentView: View {
 
 					}
 					NavigationLink {
-						
+						WorkoutMainView()
 					} label: {
 						DemoItemListView(icon: "figure.run", iconBackground: .green, title: "Workouts")
 						

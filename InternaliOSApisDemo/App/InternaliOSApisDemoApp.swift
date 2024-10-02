@@ -16,12 +16,15 @@ struct InternaliOSApisDemoApp: App {
 	
 	@StateObject private var healthKitManager = HealthKitManager()
 	
+	@StateObject private var workoutManager = WorkoutManager()
+	
     var body: some Scene {
         WindowGroup {
             ContentView()
 				.environmentObject(reminderManager)
 				.environmentObject(locationManager)
 				.environmentObject(healthKitManager)
+				.environmentObject(workoutManager)
         }
     }
 }
