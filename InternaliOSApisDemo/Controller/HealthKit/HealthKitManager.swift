@@ -31,7 +31,7 @@ class HealthKitManager: ObservableObject {
 		let typesToRead: Set = [
 			HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!,
 			HKObjectType.quantityType(forIdentifier: .appleExerciseTime)!,
-			HKObjectType.quantityType(forIdentifier: .appleStandTime)!,
+			HKObjectType.categoryType(forIdentifier: .appleStandHour)!,
 			HKObjectType.quantityType(forIdentifier: .heartRate)!,
 		]
 		
