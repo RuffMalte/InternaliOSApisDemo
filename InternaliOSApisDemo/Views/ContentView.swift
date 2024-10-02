@@ -71,7 +71,7 @@ struct ContentView: View {
 				
 				Section {
 					NavigationLink {
-						//show font sizes
+						AccessibiltyMainView()
 					} label: {
 						DemoItemListView(icon: "accessibility", iconBackground: .blue, title: "Accessibility")
 					}
