@@ -75,6 +75,14 @@ struct ContentView: View {
 					}
 				}
 				
+				Section {
+					NavigationLink {
+						//show font sizes
+					} label: {
+						DemoItemListView(icon: "accessibility", iconBackground: .blue, title: "Accessibility")
+					}
+				}
+				
 			}
 			.navigationTitle("Internal iOS APIs Demo")
 		}

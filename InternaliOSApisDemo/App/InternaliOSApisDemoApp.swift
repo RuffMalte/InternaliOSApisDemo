@@ -14,11 +14,14 @@ struct InternaliOSApisDemoApp: App {
 	
 	@StateObject private var locationManager = LocationPermissionManager()
 	
+	@StateObject private var healthKitManager = HealthKitManager()
+	
     var body: some Scene {
         WindowGroup {
             ContentView()
 				.environmentObject(reminderManager)
 				.environmentObject(locationManager)
+				.environmentObject(healthKitManager)
         }
     }
 }
