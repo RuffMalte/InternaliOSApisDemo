@@ -62,7 +62,7 @@ struct ContentView: View {
 				
 				Section {
 					NavigationLink {
-						
+						PhotosMainView()
 					} label: {
 						DemoItemListView(icon: "photo.fill", iconBackground: .black, title: "Photos")
 						

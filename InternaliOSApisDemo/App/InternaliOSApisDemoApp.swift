@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct InternaliOSApisDemoApp: App {
@@ -18,6 +19,23 @@ struct InternaliOSApisDemoApp: App {
 	
 	@StateObject private var workoutManager = WorkoutManager()
 	
+	let container: ModelContainer
+
+	init() {
+		let schema = Schema([
+			ImageItem.self
+		])
+		let config = ModelConfiguration("InternalIOsApisDemo", schema: schema)
+		do {
+			container = try ModelContainer(for: schema, configurations: config)
+		} catch {
+			fatalError("Could not configure the container")
+		}
+
+		print(URL.applicationSupportDirectory.path(percentEncoded: false))
+	}
+	
+	
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -25,6 +43,7 @@ struct InternaliOSApisDemoApp: App {
 				.environmentObject(locationManager)
 				.environmentObject(healthKitManager)
 				.environmentObject(workoutManager)
+				.modelContainer(container)
         }
     }
 }
