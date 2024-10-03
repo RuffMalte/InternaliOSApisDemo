@@ -21,7 +21,7 @@ struct ContentView: View {
 
 					
 					NavigationLink {
-						CalendarView()
+						CalendarMainView()
 					} label: {
 						DemoItemListView(icon: "calendar", iconBackground: .blue, title: "Calendar")
 					}

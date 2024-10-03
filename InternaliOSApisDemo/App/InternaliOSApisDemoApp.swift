@@ -13,6 +13,8 @@ struct InternaliOSApisDemoApp: App {
 	
 	@StateObject private var reminderManager = ReminderManager()
 	
+	@StateObject private var calendarManager = CalendarManager()
+	
 	@StateObject private var locationManager = LocationPermissionManager()
 	
 	@StateObject private var healthKitManager = HealthKitManager()
@@ -40,6 +42,7 @@ struct InternaliOSApisDemoApp: App {
         WindowGroup {
             ContentView()
 				.environmentObject(reminderManager)
+				.environmentObject(calendarManager)
 				.environmentObject(locationManager)
 				.environmentObject(healthKitManager)
 				.environmentObject(workoutManager)
