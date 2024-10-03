@@ -18,9 +18,7 @@ class HealthKitManager: ObservableObject {
 	var standHours: Double = 0
 	var currentHeartRate: Double = 0
 	
-	init() {
-		requestAuthorization()
-	}
+	init() { }
 	
 	func requestAuthorization() {
 		guard HKHealthStore.isHealthDataAvailable() else {

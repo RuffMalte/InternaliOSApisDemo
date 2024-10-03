@@ -15,9 +15,7 @@ class WorkoutManager: ObservableObject {
 	var workouts: [HKWorkout] = []
 	var isAuthorized = false
 	
-	init() {
-		requestAuthorization()
-	}
+	init() { }
 	
 	func requestAuthorization() {
 		let typesToRead: Set = [

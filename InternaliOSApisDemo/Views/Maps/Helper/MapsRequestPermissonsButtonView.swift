@@ -17,6 +17,7 @@ struct MapsRequestPermissonsButtonView: View {
 			HStack {
 				Button {
 					locationManager.requestPermission()
+					locationManager.requestLocation()
 				} label: {
 					Label("Request Location Permission", systemImage: "questionmark")
 				}

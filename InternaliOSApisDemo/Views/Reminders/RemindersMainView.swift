@@ -17,6 +17,25 @@ struct RemindersMainView: View {
 	var body: some View {
 		Form {
 			Section {
+				Button {
+					reminderManager.requestAccess { granted in
+						if granted {
+							reminderManager.fetchReminderData()
+						}
+					}
+				} label: {
+					Label("Request Reminders Access", systemImage: "list.bullet")
+				}
+			} header: {
+				if reminderManager.calendarAccessStatus == .fullAccess {
+					Text("Access Granted")
+				} else {
+					Text("Not Granted")
+				}
+			}
+			
+			
+			Section {
 				ForEach(reminderManager.remindersInList) { list in
 					NavigationLink {
 						ReminderListDetailView(list: list)

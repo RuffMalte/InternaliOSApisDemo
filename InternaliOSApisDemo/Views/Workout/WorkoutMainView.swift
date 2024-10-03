@@ -16,6 +16,21 @@ struct WorkoutMainView: View {
 
 	var body: some View {
 		Form {
+			
+			Section {
+				Button {
+					workoutManager.requestAuthorization()
+				} label: {
+					Label("Request HealthKit Permission", systemImage: "figure.run")
+				}
+			} header: {
+				if workoutManager.isAuthorized {
+					Text("Authorized")
+				} else {
+					Text("Not Authorized")
+				}
+			}
+			
 			Section {
 				ForEach(workoutManager.workouts, id: \.uuid) { workout in
 					WorkoutListItemView(workout: workout, workoutIcons: $workoutIcons)

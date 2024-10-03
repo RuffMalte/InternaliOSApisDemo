@@ -28,13 +28,11 @@ class Reminders: Identifiable, ObservableObject {
 	let store = EKEventStore()
 	var sortOption: SortOption = .dueDate
 	
+	var calendarAccessStatus: EKAuthorizationStatus = .notDetermined
+	
 	init() {
 		setupNotificationObserver()
-		requestAccess { granted in
-			if granted {
-				self.fetchReminderData()
-			}
-		}
+		checkAuthorizationStatus()
 	}
 	
 	deinit {
@@ -78,6 +76,13 @@ class Reminders: Identifiable, ObservableObject {
 				}
 				completion(granted)
 			}
+		}
+	}
+	
+	private func checkAuthorizationStatus() {
+		let status = EKEventStore.authorizationStatus(for: .reminder)
+		DispatchQueue.main.async {
+			self.calendarAccessStatus = status
 		}
 	}
 	
