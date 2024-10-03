@@ -5,34 +5,34 @@
 //  Created by Malte Ruff on 26.09.24.
 //
 import SwiftUI
+import EventKit
 
 struct CalendarMainView: View {
 	@EnvironmentObject private var calendarManager: CalendarManager
+	
+	@State private var isShowingAddEventSheet: Bool = false
     
 	var body: some View {
 		Form {
 			RequestCalendarAccessView()
 			
-			Section {
-				List(calendarManager.events, id: \.eventIdentifier) { event in
-					VStack(alignment: .leading) {
-						Text(event.title)
-							.font(.headline)
-						Text("\(event.startDate, style: .date) - \(event.endDate, style: .date)")
-							.font(.subheadline)
-						
-						if let location = event.location, !location.isEmpty {
-							Text(location)
-								.font(.caption)
-								.foregroundColor(.secondary)
-						}
-					}
-				}
-			}
+			CalendarListView()
 			
 			
 			
 			.navigationTitle("Calendar Events")
+		}
+		.toolbar {
+			ToolbarItem(placement: .primaryAction) {
+				Button {
+					isShowingAddEventSheet.toggle()
+				} label: {
+					Image(systemName: "plus")
+				}
+			}
+		}
+		.sheet(isPresented: $isShowingAddEventSheet) {
+			ModifyEventSheetView(ekEvent: EKEvent(eventStore: calendarManager.eventStore), isNewEvent: true)
 		}
     }
 }

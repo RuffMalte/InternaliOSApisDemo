@@ -14,12 +14,32 @@ import Observation
 class CalendarManager: ObservableObject {
 	var events: [EKEvent] = []
 	var authorizationStatus: EKAuthorizationStatus = .notDetermined
-	
-	private let eventStore = EKEventStore()
+	let eventStore = EKEventStore()
+	private var notificationObserver: NSObjectProtocol?
 	
 	init() {
 		updateAuthorizationStatus()
-		
+		setupNotificationObserver()
+	}
+	
+	deinit {
+		removeNotificationObserver()
+	}
+	
+	private func setupNotificationObserver() {
+		notificationObserver = NotificationCenter.default.addObserver(
+			forName: .EKEventStoreChanged,
+			object: nil,
+			queue: .main
+		) { [weak self] _ in
+			self?.fetchEvents()
+		}
+	}
+	
+	private func removeNotificationObserver() {
+		if let observer = notificationObserver {
+			NotificationCenter.default.removeObserver(observer)
+		}
 	}
 	
 	func updateAuthorizationStatus() {
@@ -50,9 +70,35 @@ class CalendarManager: ObservableObject {
 		let calendars = eventStore.calendars(for: .event)
 		let predicate = eventStore.predicateForEvents(withStart: startDate, end: endDate, calendars: calendars)
 		let fetchedEvents = eventStore.events(matching: predicate)
-		
 		DispatchQueue.main.async {
 			self.events = fetchedEvents.sorted { $0.startDate < $1.startDate }
+		}
+	}
+	
+	func addEvent(_ event: EKEvent) {
+		do {
+			try eventStore.save(event, span: .thisEvent)
+			fetchEvents() // Refresh events after adding a new one
+		} catch {
+			print("Error saving event: \(error)")
+		}
+	}
+	
+	func updateEvent(_ event: EKEvent) {
+		do {
+			try eventStore.save(event, span: .thisEvent)
+			fetchEvents() 
+		} catch {
+			print("Error updating event: \(error)")
+		}
+	}
+	
+	func deleteEvent(_ event: EKEvent) {
+		do {
+			try eventStore.remove(event, span: .thisEvent)
+			fetchEvents()
+		} catch {
+			print("Error deleting event: \(error)")
 		}
 	}
 }
