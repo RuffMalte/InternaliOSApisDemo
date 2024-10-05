@@ -21,6 +21,8 @@ struct InternaliOSApisDemoApp: App {
 	
 	@StateObject private var workoutManager = WorkoutManager()
 	
+	@StateObject private var weatherController = WeatherController()
+
 	let container: ModelContainer
 
 	init() {
@@ -47,6 +49,7 @@ struct InternaliOSApisDemoApp: App {
 				.environmentObject(healthKitManager)
 				.environmentObject(workoutManager)
 				.modelContainer(container)
+				.environmentObject(weatherController)
         }
     }
 }

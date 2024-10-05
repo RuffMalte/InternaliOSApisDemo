@@ -77,6 +77,14 @@ struct ContentView: View {
 					}
 				}
 				
+				Section {
+					NavigationLink {
+						WeatherMainView()
+					} label: {
+						DemoItemListView(icon: "cloud.drizzle.fill", iconBackground: .gray, title: "Weather")
+					}
+				}
+				
 			}
 			.navigationTitle("Internal iOS APIs Demo")
 		}
