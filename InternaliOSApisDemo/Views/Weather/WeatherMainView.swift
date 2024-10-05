@@ -53,6 +53,7 @@ struct WeatherMainView: View {
 
 			
 		}
+		.navigationTitle(" Weather")
 	}
 
 }

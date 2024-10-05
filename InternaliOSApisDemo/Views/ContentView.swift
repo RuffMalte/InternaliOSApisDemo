@@ -85,6 +85,14 @@ struct ContentView: View {
 					}
 				}
 				
+				Section {
+					NavigationLink {
+						GyroscopeMainView()
+					} label: {
+						DemoItemListView(icon: "figure.walk.motion", iconBackground: .green, title: "Motion")
+					}
+				}
+				
 			}
 			.navigationTitle("Internal iOS APIs Demo")
 		}
