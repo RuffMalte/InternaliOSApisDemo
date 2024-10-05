@@ -52,6 +52,8 @@ struct ModifyEventSheetView: View {
 				
 				Section(header: Text("Calendar")) {
 					Picker("Calendar", selection: $calendar) {
+						Text(calendarManager.eventStore.calendars(for: .event).first?.title ?? "No Calendar Found")
+							.tag(nil as EKCalendar?)
 						ForEach(calendarManager.eventStore.calendars(for: .event), id: \.self) { calendar in
 							Text(calendar.title).tag(calendar as EKCalendar?)
 						}
