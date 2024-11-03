@@ -16,7 +16,24 @@ struct WorkoutListItemView: View {
 	@EnvironmentObject var workoutManager: WorkoutManager
 
 	
-    var body: some View {
+	var body: some View {
+		VStack(alignment: .leading, spacing: 10) {
+			DisclosureGroup {
+				detailView
+			} label: {
+				labelView
+			}
+		}
+		.onAppear {
+			Task {
+				if let icon = await workoutManager.appIcon(for: workout) {
+					workoutIcons[workout.uuid] = icon
+				}
+			}
+		}
+	}
+	
+	var labelView: some View {
 		HStack {
 			Group {
 				if let icon = workoutIcons[workout.uuid] {
@@ -36,34 +53,50 @@ struct WorkoutListItemView: View {
 			.clipShape(.rect(cornerRadius: 10))
 			
 			VStack(alignment: .leading) {
-				HStack {
-					Text(workoutManager.workoutName(for: workout))
-				}
-				.font(.system(.subheadline, design: .rounded, weight: .regular))
+				Text(workoutManager.workoutName(for: workout))
+					.font(.system(.headline, design: .rounded, weight: .bold))
+				
 				HStack {
 					Text(formatDuration(workout.duration))
 					if let distance = workout.totalDistance {
 						Text("-")
 						Text(formatDistance(distance))
 					}
-					
-					Spacer()
-					
-					Text(workout.startDate, format: .dateTime.weekday(.wide))
-						.font(.system(.footnote, design: .default, weight: .regular))
-						.foregroundStyle(.secondary)
 				}
-				.font(.system(.headline, design: .monospaced, weight: .semibold))
+				.font(.system(.subheadline, design: .monospaced, weight: .medium))
+			}
+			
+			Spacer()
+			
+			Text(workout.startDate, format: .dateTime.weekday(.wide))
+				.font(.system(.footnote, design: .default, weight: .regular))
+				.foregroundStyle(.secondary)
+		}
+	}
+	
+	var detailView: some View {
+		VStack(alignment: .leading, spacing: 5) {
+			Text("Start: \(workout.startDate, format: .dateTime)")
+			Text("End: \(workout.endDate, format: .dateTime)")
+			
+			if let energyBurnedType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned),
+			   let statistics = workout.statistics(for: energyBurnedType),
+			   let sum = statistics.sumQuantity() {
+				let energyBurned = sum.doubleValue(for: .kilocalorie())
+				Text("Energy Burned: \(energyBurned, specifier: "%.2f") kcal")
+			}
+			
+			if let device = workout.device {
+				Text("Device Info:")
+				Text("  Name: \(device.name ?? "N/A")")
+				Text("  Manufacturer: \(device.manufacturer ?? "N/A")")
+				Text("  Model: \(device.model ?? "N/A")")
+				Text("  Hardware Version: \(device.hardwareVersion ?? "N/A")")
+				Text("  Software Version: \(device.softwareVersion ?? "N/A")")
 			}
 		}
-		.onAppear {
-			Task {
-				if let icon = await workoutManager.appIcon(for: workout) {
-					workoutIcons[workout.uuid] = icon
-				}
-			}
-		}
-    }
+		.font(.system(.caption, design: .default))
+	}
 	
 	func formatDuration(_ duration: TimeInterval) -> String {
 		let formatter = DateComponentsFormatter()
